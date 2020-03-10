@@ -13,6 +13,7 @@ const getTableData = (req, res, db) => {
 
 const postTableData = (req, res, db) => {
   const { first, last, email, phone, location, hobby } = req.body;
+  console.log(req.body);
   const added = new Date();
   db("testtable1")
     .insert({ first, last, email, phone, location, hobby, added })
@@ -20,7 +21,7 @@ const postTableData = (req, res, db) => {
     .then(item => {
       res.json(item);
     })
-    .catch(err => res.status(400).json({ dbError: "db error" }));
+    .catch(err => res.status(400).json({ dbError: err }));
 };
 
 const putTableData = (req, res, db) => {

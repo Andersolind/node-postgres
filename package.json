@@ -1,5 +1,5 @@
 {
-  "name": "Crud Practice",
+  "name": "crudpractice",
   "version": "1.0.0",
   "description": "Practicing crud",
   "main": "server.js",
