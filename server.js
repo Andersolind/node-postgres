@@ -10,12 +10,17 @@ const cors = require("cors"); // allows/disallows cross-site communication
 const morgan = require("morgan"); // logs requests
 
 // db Connection w/ Heroku
-const db = require("pg")({
-  client: "pg",
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-  }
+
+require("dotenv").config();
+
+const { Pool } = require("pg");
+const isProduction = process.env.NODE_ENV === "production";
+
+const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
+
+const pool = new Pool({
+  connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+  ssl: isProduction
 });
 
 // db Connection w/ localhost
@@ -53,10 +58,10 @@ app.use(morgan("combined")); // use 'tiny' or 'combined'
 
 // App Routes - Auth
 app.get("/", (req, res) => res.send("Node for the win"));
-app.get("/crud", (req, res) => main.getTableData(req, res, db));
-app.post("/crud", (req, res) => main.postTableData(req, res, db));
-app.put("/crud", (req, res) => main.putTableData(req, res, db));
-app.delete("/crud", (req, res) => main.deleteTableData(req, res, db));
+app.get("/crud", (req, res) => main.getTableData(req, res, pool));
+app.post("/crud", (req, res) => main.postTableData(req, res, pool));
+app.put("/crud", (req, res) => main.putTableData(req, res, pool));
+app.delete("/crud", (req, res) => main.deleteTableData(req, res, pool));
 
 // App Server Connection
 app.listen(process.env.PORT || 3000, () => {

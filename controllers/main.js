@@ -1,15 +1,24 @@
-const getTableData = (req, res, db) => {
-  db.select("*")
-    .from("blogpost")
-    .then(items => {
-      if (items.length) {
-        console.log(items);
-        res.json(items);
-      } else {
-        res.json({ dataExists: "false" });
-      }
-    })
-    .catch(err => res.status(400).json({ dbError: err }));
+// const getTableData = (req, res, db) => {
+//   db.select("*")
+//     .from("blogpost")
+//     .then(items => {
+//       if (items.length) {
+//         console.log(items);
+//         res.json(items);
+//       } else {
+//         res.json({ dataExists: "false" });
+//       }
+//     })
+//     .catch(err => res.status(400).json({ dbError: err }));
+// };
+
+const getTableData = (req, res, pool) => {
+  pool.query("SELECT * FROM blogpost", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
 };
 
 const postTableData = (req, res, db) => {
