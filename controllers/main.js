@@ -1,21 +1,22 @@
 const getTableData = (req, res, db) => {
   db.select("*")
-    .from("testtable1")
+    .from("blogpost")
     .then(items => {
       if (items.length) {
+        console.log(items);
         res.json(items);
       } else {
         res.json({ dataExists: "false" });
       }
     })
-    .catch(err => res.status(400).json({ dbError: "db error" }));
+    .catch(err => res.status(400).json({ dbError: err }));
 };
 
 const postTableData = (req, res, db) => {
   const { first, last, email, phone, location, hobby } = req.body;
   console.log(req.body);
   const added = new Date();
-  db("testtable1")
+  db("blogpost")
     .insert({ first, last, email, phone, location, hobby, added })
     .returning("*")
     .then(item => {
@@ -26,7 +27,7 @@ const postTableData = (req, res, db) => {
 
 const putTableData = (req, res, db) => {
   const { id, first, last, email, phone, location, hobby } = req.body;
-  db("testtable1")
+  db("blogpost")
     .where({ id })
     .update({ first, last, email, phone, location, hobby })
     .returning("*")
@@ -38,7 +39,7 @@ const putTableData = (req, res, db) => {
 
 const deleteTableData = (req, res, db) => {
   const { id } = req.body;
-  db("testtable1")
+  db("blogpost")
     .where({ id })
     .del()
     .then(() => {

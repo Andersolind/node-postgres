@@ -14,14 +14,11 @@ Open pSequel, connect to the new database with no username/password, use the que
 "Note to check the default database name that is created for you.. mine was postgres!
 
 ```
-CREATE TABLE testtable1 (
+CREATE TABLE blogpost (
 id serial PRIMARY KEY,
-first VARCHAR(100),
-last VARCHAR(100),
+nickName VARCHAR(100),
 email text UNIQUE NOT NULL,
-phone VARCHAR(100),
-location VARCHAR(100),
-hobby VARCHAR(100),
+url VARCHAR(100),
 added TIMESTAMP NOT NULL
 );
 ```
